@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: machinlearning-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: machinlearning-app
+  template:
+    metadata:
+      labels:
+        app: machinlearning-app
+    spec:
+      containers:
+      - name: machinlearning-app
+        image: javierlaso/machinlearning:latest
+        ports:
+        - containerPort: 8000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: machinlearning-app-service
+spec:
+  selector:
+    app: machinlearning-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: NodePort
